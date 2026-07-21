@@ -1,0 +1,27 @@
+# ---- Node ----
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# ---- Capacitor / Android build artifacts ----
+android/.gradle/
+android/build/
+android/app/build/
+android/capacitor-cordova-android-plugins/build/
+android/local.properties
+android/.idea/
+*.apk
+*.aab
+*.keystore
+!debug.keystore
+
+# ---- OS / editor / tooling ----
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+.claude/
+*.log
+
+# ---- Runtime ----
+/tmp/

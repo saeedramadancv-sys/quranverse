@@ -1,0 +1,12 @@
+{
+  "appId": "jo.edu.ju.quranverse",
+  "appName": "QuranVerse",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https",
+    "cleartext": true
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}
