@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QuranVerse — نسخ وتدقيق الآيات القرآنية</title>
+  <meta name="description" content="تطبيق ويب لنسخ الآيات القرآنية والتحقق منها — مشروع تخرّج، الجامعة الأردنية." />
+
+  <!-- Quran-friendly Arabic typefaces -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- ===== Header ===== -->
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">﴾ ﴿</span>
+      <div class="brand-text">
+        <h1>QuranVerse</h1>
+        <p>نسخ الآيات القرآنية والتحقق منها</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <span id="sourceBadge" class="badge badge-muted" title="مصدر البيانات">—</span>
+      <button id="statsBtn" class="btn btn-ghost" type="button" aria-haspopup="dialog">
+        <span aria-hidden="true">📊</span> الإحصائيات
+      </button>
+      <button id="settingsBtn" class="btn btn-ghost" type="button" aria-haspopup="dialog">
+        <span aria-hidden="true">⚙</span> الإعدادات
+      </button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <!-- ===== Sidebar: surah / ayah selection ===== -->
+    <aside class="sidebar" aria-label="اختيار السورة والآية">
+      <div class="field">
+        <label for="surahSelect">السورة</label>
+        <select id="surahSelect" class="control"></select>
+      </div>
+
+      <div class="field">
+        <label for="ayahSearch">بحث في الآيات</label>
+        <input id="ayahSearch" class="control" type="search" placeholder="اكتب كلمة من الآية…" />
+      </div>
+
+      <div class="ayah-list-wrap">
+        <ul id="ayahList" class="ayah-list" role="listbox" aria-label="قائمة الآيات"></ul>
+      </div>
+    </aside>
+
+    <!-- ===== Workspace ===== -->
+    <section class="workspace">
+      <!-- Reference verse -->
+      <div class="card">
+        <div class="card-head">
+          <h2>الآية المرجعية</h2>
+          <span id="ayahMeta" class="badge badge-muted">—</span>
+        </div>
+        <div id="referenceVerse" class="verse quran-text" aria-live="polite">
+          اختر سورة وآية للبدء.
+        </div>
+      </div>
+
+      <!-- Transcription input -->
+      <div class="card">
+        <div class="card-head">
+          <h2>النسخ (Transcription)</h2>
+          <button id="loadRefBtn" class="btn btn-ghost btn-sm" type="button" title="نسخ نص الآية إلى الحقل للتجربة">
+            تعبئة تجريبية
+          </button>
+        </div>
+        <textarea id="transcriptionInput" class="control quran-input" rows="3"
+          placeholder="اكتب هنا نسخ الآية كما سمعتها…" dir="rtl"></textarea>
+
+        <div id="micRow" class="mic-row">
+          <button id="recordBtn" class="btn btn-record" type="button" aria-pressed="false">
+            <span class="mic-icon" aria-hidden="true">🎤</span>
+            <span id="recordLabel">تسجيل صوتي</span>
+          </button>
+          <span id="recDot" class="rec-dot is-hidden" aria-hidden="true"></span>
+          <span id="recStatus" class="rec-status"></span>
+        </div>
+
+        <div id="audioBox" class="audio-box is-hidden">
+          <audio id="audioPlayer" controls></audio>
+          <a id="audioDownload" class="btn btn-ghost btn-sm" download="transcription.wav">⬇ تنزيل WAV</a>
+          <span id="audioMeta" class="rec-status"></span>
+        </div>
+
+        <div class="actions">
+          <button id="verifyBtn" class="btn btn-primary" type="button">تحقّق من النسخ</button>
+          <button id="clearBtn" class="btn btn-ghost" type="button">مسح</button>
+          <button id="saveBtn" class="btn btn-secondary" type="button" disabled>حفظ النسخ</button>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div id="resultCard" class="card result-card is-hidden">
+        <div class="card-head">
+          <h2>نتيجة التحقق</h2>
+          <span id="resultStatus" class="badge">—</span>
+        </div>
+
+        <div class="metrics">
+          <div class="metric">
+            <div class="metric-value" id="accuracyValue">0%</div>
+            <div class="metric-label">دقة الكلمات</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value" id="matchValue">0</div>
+            <div class="metric-label">مطابقة</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value" id="subValue">0</div>
+            <div class="metric-label">استبدال</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value" id="delValue">0</div>
+            <div class="metric-label">ناقص</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value" id="insValue">0</div>
+            <div class="metric-label">زائد</div>
+          </div>
+        </div>
+
+        <div class="accuracy-bar" aria-hidden="true">
+          <div id="accuracyFill" class="accuracy-fill" style="width:0%"></div>
+        </div>
+
+        <h3 class="diff-title">المقارنة كلمة بكلمة</h3>
+        <div id="diffView" class="diff-view quran-text" dir="rtl"></div>
+
+        <div class="legend">
+          <span class="legend-item"><i class="dot dot-match"></i> مطابقة</span>
+          <span class="legend-item"><i class="dot dot-sub"></i> استبدال</span>
+          <span class="legend-item"><i class="dot dot-del"></i> ناقص (في المرجع)</span>
+          <span class="legend-item"><i class="dot dot-ins"></i> زائد (في النسخ)</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>مشروع تخرّج — الجامعة الأردنية · QuranVerse Transcription &amp; Verification</p>
+  </footer>
+
+  <!-- ===== Statistics dialog ===== -->
+  <div id="statsOverlay" class="overlay is-hidden" role="dialog" aria-modal="true" aria-labelledby="statsTitle">
+    <div class="dialog dialog-wide">
+      <div class="card-head">
+        <h2 id="statsTitle">لوحة الإحصائيات</h2>
+        <button id="closeStatsBtn" class="btn btn-ghost btn-sm" type="button" aria-label="إغلاق">✕</button>
+      </div>
+
+      <div class="metrics stats-metrics">
+        <div class="metric"><div class="metric-value" id="stTotal">0</div><div class="metric-label">نسخات محفوظة</div></div>
+        <div class="metric"><div class="metric-value" id="stAvg">0%</div><div class="metric-label">متوسط الدقة</div></div>
+        <div class="metric"><div class="metric-value" id="stPass">0%</div><div class="metric-label">نسبة القبول</div></div>
+        <div class="metric"><div class="metric-value" id="stAudio">0</div><div class="metric-label">مع تسجيل صوتي</div></div>
+      </div>
+
+      <h3 class="diff-title">الدقة عبر الزمن</h3>
+      <div id="stChart" class="stats-chart"></div>
+
+      <h3 class="diff-title">حسب السورة</h3>
+      <div id="stBySurah" class="stats-table"></div>
+
+      <h3 class="diff-title">أحدث النسخات</h3>
+      <div id="stRecent" class="stats-recent"></div>
+
+      <div class="actions">
+        <button id="exportCsvBtn" class="btn btn-secondary btn-sm" type="button">⬇ تصدير CSV</button>
+        <button id="exportJsonBtn" class="btn btn-secondary btn-sm" type="button">⬇ تصدير JSON</button>
+        <span class="actions-spacer"></span>
+        <button id="clearStatsBtn" class="btn btn-ghost btn-sm" type="button">مسح السجل</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Settings dialog ===== -->
+  <div id="settingsOverlay" class="overlay is-hidden" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <div class="dialog">
+      <div class="card-head">
+        <h2 id="settingsTitle">الإعدادات</h2>
+        <button id="closeSettingsBtn" class="btn btn-ghost btn-sm" type="button" aria-label="إغلاق">✕</button>
+      </div>
+
+      <div class="field">
+        <label for="apiUrlInput">عنوان الباك-إند (REST API)</label>
+        <input id="apiUrlInput" class="control" type="url" dir="ltr" placeholder="http://localhost:8000/api" />
+      </div>
+
+      <label class="switch-row">
+        <input id="useBackendToggle" type="checkbox" />
+        <span>استخدام الباك-إند (وإلا استعمال البيانات المحلية)</span>
+      </label>
+
+      <div class="actions">
+        <button id="testConnBtn" class="btn btn-secondary" type="button">اختبار الاتصال</button>
+        <span id="connStatus" class="badge badge-muted">—</span>
+      </div>
+
+      <div class="actions actions-end">
+        <button id="saveSettingsBtn" class="btn btn-primary" type="button">حفظ</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast is-hidden" role="status" aria-live="polite"></div>
+
+  <!-- Scripts (order matters) -->
+  <script src="js/data.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/verify.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/speech.js"></script>
+  <script src="js/recorder.js"></script>
+  <script src="js/stats.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

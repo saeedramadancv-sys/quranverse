@@ -1,0 +1,67 @@
+/**
+ * data.js — Local sample Quran dataset.
+ * Used as an offline fallback so the app works without a live backend.
+ * When the partner's REST API is available, api.js prefers it and only
+ * falls back to this data if the network request fails.
+ *
+ * Text source: Tanzil.net (Uthmani script) — a public Quran text project.
+ */
+
+window.QURAN_DATA = {
+  surahs: [
+    {
+      number: 1,
+      name: "الفاتحة",
+      englishName: "Al-Fatihah",
+      revelationType: "Meccan",
+      ayahs: [
+        { number: 1, text: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ" },
+        { number: 2, text: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ" },
+        { number: 3, text: "الرَّحْمَٰنِ الرَّحِيمِ" },
+        { number: 4, text: "مَالِكِ يَوْمِ الدِّينِ" },
+        { number: 5, text: "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ" },
+        { number: 6, text: "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ" },
+        { number: 7, text: "صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ" }
+      ]
+    },
+    {
+      number: 112,
+      name: "الإخلاص",
+      englishName: "Al-Ikhlas",
+      revelationType: "Meccan",
+      ayahs: [
+        { number: 1, text: "قُلْ هُوَ اللَّهُ أَحَدٌ" },
+        { number: 2, text: "اللَّهُ الصَّمَدُ" },
+        { number: 3, text: "لَمْ يَلِدْ وَلَمْ يُولَدْ" },
+        { number: 4, text: "وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ" }
+      ]
+    },
+    {
+      number: 113,
+      name: "الفلق",
+      englishName: "Al-Falaq",
+      revelationType: "Meccan",
+      ayahs: [
+        { number: 1, text: "قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ" },
+        { number: 2, text: "مِن شَرِّ مَا خَلَقَ" },
+        { number: 3, text: "وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ" },
+        { number: 4, text: "وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ" },
+        { number: 5, text: "وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ" }
+      ]
+    },
+    {
+      number: 114,
+      name: "الناس",
+      englishName: "An-Nas",
+      revelationType: "Meccan",
+      ayahs: [
+        { number: 1, text: "قُلْ أَعُوذُ بِرَبِّ النَّاسِ" },
+        { number: 2, text: "مَلِكِ النَّاسِ" },
+        { number: 3, text: "إِلَٰهِ النَّاسِ" },
+        { number: 4, text: "مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ" },
+        { number: 5, text: "الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ" },
+        { number: 6, text: "مِنَ الْجِنَّةِ وَالنَّاسِ" }
+      ]
+    }
+  ]
+};

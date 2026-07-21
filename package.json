@@ -1,0 +1,20 @@
+{
+  "name": "quranverse",
+  "version": "1.0.0",
+  "description": "QuranVerse — Quran verse transcription & verification (University of Jordan graduation project)",
+  "private": true,
+  "scripts": {
+    "serve": "node server.js",
+    "sync": "cap sync",
+    "open:android": "cap open android",
+    "build:apk": "cd android && gradlew.bat assembleDebug"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@capacitor-community/speech-recognition": "^7.0.1",
+    "@capacitor/android": "^8.4.2",
+    "@capacitor/cli": "^8.4.2",
+    "@capacitor/core": "^8.4.2"
+  }
+}
