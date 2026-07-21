@@ -120,7 +120,7 @@ browser. Or manually:
 node server.js       # serves www/ on http://localhost:8123/
 ```
 
-Then open <http://localhost:8123/> in Chrome or Edge.
+Then open <saeedramadancv-sys.github.io/quranverse/> in Chrome or Edge.
 
 ---
 
