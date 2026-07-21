@@ -117,10 +117,10 @@ file directly via `file://` disables some browser features). Easiest on Windows:
 browser. Or manually:
 
 ```bash
-node server.js       # serves www/ on http://localhost:8123/
+node server.js       # serves www/ on https://saeedramadancv-sys.github.io/quranverse/
 ```
 
-Then open <saeedramadancv-sys.github.io/quranverse/> in Chrome or Edge.
+Then open <https://saeedramadancv-sys.github.io/quranverse/> in Chrome or Edge.
 
 ---
 
