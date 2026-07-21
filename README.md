@@ -1,12 +1,45 @@
-# QuranVerse — Transcription & Verification
+<h1 align="center">🕌 QuranVerse — Transcription &amp; Verification</h1>
 
-Front-end web application for **transcribing and verifying Quranic verses**.
-Graduation Project — University of Jordan.
+<p align="center">
+  A front-end web app for <b>transcribing and verifying Quranic verses</b> with accurate right-to-left Arabic rendering.<br/>
+  <i>Graduation Project — University of Jordan</i>
+</p>
 
-Users pick a surah/ayah, type (or paste from a speech-to-text partner) a
-transcription of the verse, and the app scores it against the reference text
-word-by-word — highlighting matches, substitutions, missing and extra words —
-with fully accurate right-to-left Arabic rendering.
+<p align="center">
+  <a href="https://saeedramadancv-sys.github.io/quranverse/"><img src="https://img.shields.io/badge/🔗_Live_Demo-0e7c66?style=for-the-badge" alt="Live Demo"/></a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white" alt="HTML5"/>
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white" alt="CSS3"/>
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black" alt="JavaScript"/>
+  <img src="https://img.shields.io/badge/Capacitor-119EFF?style=flat-square&logo=capacitor&logoColor=white" alt="Capacitor"/>
+  <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="MIT License"/>
+</p>
+
+Users pick a surah/ayah, type (or **dictate**) a transcription of the verse, and
+the app scores it against the reference text word-by-word — highlighting matches,
+substitutions, missing and extra words — with fully accurate right-to-left Arabic
+rendering.
+
+---
+
+## 📸 Screenshots
+
+<p align="center">
+  <img src="docs/screenshots/01-home.png" alt="Home — surah & ayah browser" width="80%"/>
+  <br/><em>Browse surahs and ayahs with a Quran-grade Arabic typeface</em>
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/02-verification.png" alt="Verification result with word-by-word diff" width="80%"/>
+  <br/><em>Word-by-word verification: accuracy score and colour-coded diff (match / substitution / missing / extra)</em>
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/03-statistics.png" alt="Statistics dashboard" width="80%"/>
+  <br/><em>Statistics dashboard: accuracy-over-time chart, per-surah breakdown, and CSV/JSON export</em>
+</p>
 
 ---
 
