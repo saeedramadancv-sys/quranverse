@@ -15,7 +15,9 @@ const TYPES = {
   ".js": "application/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
   ".svg": "image/svg+xml",
-  ".ico": "image/x-icon"
+  ".ico": "image/x-icon",
+  ".png": "image/png",
+  ".webmanifest": "application/manifest+json"
 };
 
 http.createServer((req, res) => {
