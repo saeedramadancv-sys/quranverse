@@ -74,7 +74,14 @@
       <div class="card">
         <div class="card-head">
           <h2>الآية المرجعية</h2>
-          <span id="ayahMeta" class="badge badge-muted">—</span>
+          <div class="head-actions">
+            <button id="reciteBtn" class="btn btn-ghost btn-sm" type="button"
+                    aria-pressed="false" title="تشغيل تلاوة الآية">
+              <span id="reciteIcon" aria-hidden="true">🔊</span>
+              <span id="reciteLabel">استمع للآية</span>
+            </button>
+            <span id="ayahMeta" class="badge badge-muted">—</span>
+          </div>
         </div>
         <div id="referenceVerse" class="verse quran-text" aria-live="polite">
           اختر سورة وآية للبدء.
@@ -90,7 +97,7 @@
           </button>
         </div>
         <textarea id="transcriptionInput" class="control quran-input" rows="3"
-          placeholder="اكتب هنا نسخ الآية كما سمعتها…" dir="rtl"></textarea>
+          placeholder="اتلُ الآية بصوتك أو اكتبها هنا…" dir="rtl"></textarea>
 
         <div id="micRow" class="mic-row">
           <button id="recordBtn" class="btn btn-record" type="button" aria-pressed="false">
@@ -234,6 +241,7 @@
   <script src="js/config.js"></script>
   <script src="js/verify.js"></script>
   <script src="js/api.js"></script>
+  <script src="js/recite.js"></script>
   <script src="js/speech.js"></script>
   <script src="js/recorder.js"></script>
   <script src="js/stats.js"></script>

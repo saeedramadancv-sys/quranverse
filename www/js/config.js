@@ -19,7 +19,13 @@ window.APP_CONFIG = {
   REQUEST_TIMEOUT_MS: 8000,
 
   // Minimum word-accuracy (%) to consider a transcription "verified".
-  PASS_THRESHOLD: 90
+  PASS_THRESHOLD: 90,
+
+  // Reference recitation audio. URLs are built as
+  // <RECITATION_BASE_URL>/<RECITER>/<surah:3><ayah:3>.mp3 — see recite.js.
+  // Requires a network connection; playback fails gracefully without one.
+  RECITATION_BASE_URL: "https://everyayah.com/data",
+  RECITER: "Alafasy_128kbps"
 };
 
 /** Persist a config change and update the live object. */

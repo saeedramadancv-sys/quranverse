@@ -1,17 +1,21 @@
 /**
  * sw.js — offline support for QuranVerse.
  *
- * Strategy:
- *   • Navigations  — network first, falling back to the cached shell. This means
- *                    a deployed update always wins when online, so the app can
- *                    never get stuck on a stale build.
- *   • Static files — stale-while-revalidate: serve instantly from cache, then
- *                    refresh the entry in the background for next launch.
- *   • Cross-origin — left alone (Google Fonts fall back to system fonts offline).
+ * Strategy — network first everywhere, with the cache as a safety net:
+ *   • Navigations  — network, falling back to the cached shell.
+ *   • Static files — network, falling back to the cache after NETWORK_TIMEOUT_MS.
+ *   • Cross-origin — left alone (Google Fonts fall back to system fonts offline,
+ *                    and the recitation audio in recite.js streams normally).
  *
- * Bump CACHE_VERSION on every deploy; `activate` drops every older cache.
+ * A deployed update therefore always wins on a healthy connection, a weak
+ * connection still renders instantly from cache, and the app works offline —
+ * without depending on a CACHE_VERSION bump to avoid serving stale files.
+ * `activate` still drops older caches whenever the version does change.
  */
-const CACHE_VERSION = "quranverse-v1";
+const CACHE_VERSION = "quranverse-v3";
+
+// How long to wait for the network before falling back to the cache.
+const NETWORK_TIMEOUT_MS = 2500;
 
 const CORE_ASSETS = [
   "./",
@@ -22,6 +26,7 @@ const CORE_ASSETS = [
   "js/data.js",
   "js/verify.js",
   "js/api.js",
+  "js/recite.js",
   "js/speech.js",
   "js/recorder.js",
   "js/stats.js",
@@ -74,19 +79,37 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Everything else: cache first, refresh in the background.
-  event.respondWith(
-    caches.match(request).then((cached) => {
-      const network = fetch(request)
-        .then((res) => {
-          if (res && res.status === 200) {
-            const copy = res.clone();
-            caches.open(CACHE_VERSION).then((c) => c.put(request, copy));
-          }
-          return res;
-        })
-        .catch(() => cached);
-      return cached || network;
-    })
-  );
+  // Everything else: network first, but fall back to the cache as soon as the
+  // network looks slow. Fresh code always wins on a healthy connection, a weak
+  // connection still renders instantly, and offline works from cache — without
+  // needing a cache-version bump on every deploy to avoid serving stale files.
+  event.respondWith(networkFirstWithTimeout(request, NETWORK_TIMEOUT_MS));
 });
+
+function networkFirstWithTimeout(request, ms) {
+  return new Promise((resolve) => {
+    let settled = false;
+    const done = (res) => {
+      if (!settled && res) { settled = true; resolve(res); }
+    };
+
+    // If the network hasn't answered in time, serve whatever we have.
+    const timer = setTimeout(() => {
+      caches.match(request).then(done);
+    }, ms);
+
+    fetch(request)
+      .then((res) => {
+        clearTimeout(timer);
+        if (res && res.status === 200) {
+          const copy = res.clone();
+          caches.open(CACHE_VERSION).then((c) => c.put(request, copy));
+        }
+        done(res);           // no-op if the cache already answered
+      })
+      .catch(() => {
+        clearTimeout(timer);
+        caches.match(request).then((cached) => done(cached || Response.error()));
+      });
+  });
+}

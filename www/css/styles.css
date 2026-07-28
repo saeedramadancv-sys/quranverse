@@ -194,6 +194,19 @@ h1, h2, h3 { margin: 0; font-weight: 700; }
   margin-bottom: 12px;
 }
 .card-head h2 { font-size: 17px; }
+/* Groups the listen button with the ayah badge on the reference card. */
+.head-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+#reciteBtn { display: inline-flex; align-items: center; gap: 6px; }
+#reciteBtn[aria-pressed="true"] {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+#reciteBtn:disabled { opacity: .6; cursor: default; }
 
 /* ---------- Verse ---------- */
 .quran-text { font-family: var(--font-quran); }
