@@ -7,6 +7,9 @@
  */
 
 window.APP_CONFIG = {
+  // Shown in the footer so the running build is identifiable at a glance.
+  APP_VERSION: "v1.2",
+
   // Base URL of the partner's REST API. Change to match the backend, e.g.
   // "http://localhost:8000/api" or "https://api.quranverse.example/v1".
   API_BASE_URL: localStorage.getItem("qv.apiBaseUrl") || "http://localhost:8000/api",
