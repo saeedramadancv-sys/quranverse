@@ -14,6 +14,9 @@
     ayahList: $("ayahList"),
     referenceVerse: $("referenceVerse"),
     ayahMeta: $("ayahMeta"),
+    reciteBtn: $("reciteBtn"),
+    reciteIcon: $("reciteIcon"),
+    reciteLabel: $("reciteLabel"),
     transcriptionInput: $("transcriptionInput"),
     recordBtn: $("recordBtn"),
     recordLabel: $("recordLabel"),
@@ -144,7 +147,37 @@
     });
   }
 
+  // ---- Reference recitation ----
+  function onReciteState(s, detail) {
+    const map = {
+      idle:    ["🔊", "استمع للآية"],
+      loading: ["⏳", "جارٍ التحميل…"],
+      playing: ["⏸", "إيقاف التلاوة"],
+      error:   ["🔊", "استمع للآية"],
+    };
+    const [icon, label] = map[s] || map.idle;
+    els.reciteIcon.textContent = icon;
+    els.reciteLabel.textContent = label;
+    els.reciteBtn.setAttribute("aria-pressed", String(s === "playing"));
+    els.reciteBtn.disabled = s === "loading";
+    if (s === "error" && detail) toast(detail);
+  }
+
+  function toggleRecite() {
+    if (!state.currentAyah) { toast("اختر آية أولاً"); return; }
+    // Never let the reference play into a live microphone.
+    if (window.Speech && window.Speech.isActive()) {
+      toast("أوقف التسجيل أولاً");
+      return;
+    }
+    window.Recite.toggle(
+      state.currentSurah ? state.currentSurah.number : null,
+      state.currentAyah.number
+    );
+  }
+
   function selectAyah(ayah) {
+    if (window.Recite) window.Recite.stop();   // don't carry audio to a new ayah
     state.currentAyah = ayah;
     els.referenceVerse.textContent = ayah.text;
     const sName = state.currentSurah ? state.currentSurah.name : "";
@@ -321,6 +354,9 @@
     }
 
     // ---- Start ----
+    // Silence the reference recitation so the mic can't capture it.
+    if (window.Recite) window.Recite.stop();
+
     // Capture existing text so dictation appends rather than overwrites.
     state.speechBase = els.transcriptionInput.value.trim();
 
@@ -520,6 +556,8 @@
       els.saveBtn.disabled = true;
     });
     els.recordBtn.addEventListener("click", toggleRecording);
+    els.reciteBtn.addEventListener("click", toggleRecite);
+    window.Recite.onState = onReciteState;
 
     els.statsBtn.addEventListener("click", openStats);
     els.closeStatsBtn.addEventListener("click", closeStats);
