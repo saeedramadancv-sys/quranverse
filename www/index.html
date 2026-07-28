@@ -169,7 +169,9 @@
   </main>
 
   <footer class="app-footer">
-    <p>مشروع تخرّج — الجامعة الأردنية · QuranVerse Transcription &amp; Verification</p>
+    <p>مشروع تخرّج — الجامعة الأردنية · QuranVerse Transcription &amp; Verification
+      <span id="buildTag" class="build-tag"></span>
+    </p>
   </footer>
 
   <!-- ===== Statistics dialog ===== -->
@@ -249,13 +251,28 @@
 
   <!-- Offline support. Registered last so a failure can never block the app. -->
   <script>
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker.register("sw.js").catch((e) => {
-          console.warn("[sw] registration failed:", e.message);
-        });
+    (function () {
+      var tag = document.getElementById("buildTag");
+      if (tag && window.APP_CONFIG) tag.textContent = "· " + window.APP_CONFIG.APP_VERSION;
+
+      if (!("serviceWorker" in navigator)) return;
+
+      // When a newly installed worker takes control, the page is still showing
+      // assets fetched by the old one — reload once so the user never has to
+      // refresh twice to see a deploy.
+      var reloading = false;
+      navigator.serviceWorker.addEventListener("controllerchange", function () {
+        if (reloading) return;
+        reloading = true;
+        window.location.reload();
       });
-    }
+
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("sw.js")
+          .then(function (reg) { reg.update(); })   // check for a new build now
+          .catch(function (e) { console.warn("[sw] registration failed:", e.message); });
+      });
+    })();
   </script>
 </body>
 </html>

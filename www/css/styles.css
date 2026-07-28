@@ -208,6 +208,8 @@ h1, h2, h3 { margin: 0; font-weight: 700; }
 }
 #reciteBtn:disabled { opacity: .6; cursor: default; }
 
+.build-tag { opacity: .55; font-size: .85em; margin-inline-start: 4px; }
+
 /* ---------- Verse ---------- */
 .quran-text { font-family: var(--font-quran); }
 .verse {

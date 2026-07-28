@@ -12,7 +12,7 @@
  * without depending on a CACHE_VERSION bump to avoid serving stale files.
  * `activate` still drops older caches whenever the version does change.
  */
-const CACHE_VERSION = "quranverse-v3";
+const CACHE_VERSION = "quranverse-v4";
 
 // How long to wait for the network before falling back to the cache.
 const NETWORK_TIMEOUT_MS = 2500;
