@@ -17,8 +17,11 @@
   <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="MIT License"/>
 </p>
 
-Users pick a surah/ayah, type (or **dictate**) a transcription of the verse, and
-the app scores it against the reference text word-by-word — highlighting matches,
+The app ships with the **complete Juzʼ ʿAmma** (the 30th and final juzʼ of the
+Quran) — all **37 surahs** from **An-Nabaʼ (78)** through **An-Nās (114)**,
+**564 āyāt** in total, bundled locally so it works fully offline. Users pick a
+surah/ayah, type (or **dictate**) a transcription of the verse, and the app
+scores it against the reference text word-by-word — highlighting matches,
 substitutions, missing and extra words — with fully accurate right-to-left Arabic
 rendering.
 
@@ -27,8 +30,8 @@ rendering.
 ## 📸 Screenshots
 
 <p align="center">
-  <img src="docs/screenshots/01-home.png" alt="Home — surah & ayah browser" width="80%"/>
-  <br/><em>Browse surahs and ayahs with a Quran-grade Arabic typeface</em>
+  <img src="docs/screenshots/01-home.png" alt="Home — Juzʼ ʿAmma surah & ayah browser" width="80%"/>
+  <br/><em>Browse the 37 surahs of Juzʼ ʿAmma and their āyāt with a Quran-grade Arabic typeface</em>
 </p>
 
 <p align="center">
@@ -45,6 +48,9 @@ rendering.
 
 ## Features
 
+- **Full Juzʼ ʿAmma dataset** — all 37 surahs (An-Nabaʼ → An-Nās, 564 āyāt) in
+  Uthmani/Ḥafs script (Tanzil.net), bundled locally so the whole juzʼ works
+  offline with no backend.
 - **Right-to-left Arabic rendering** using a Quran-grade typeface (Amiri Quran).
 - **Speech-to-text dictation** (Web Speech API, `ar-SA`) — dictate a verse and
   it streams into the transcription field, appending to existing text.
@@ -58,7 +64,7 @@ rendering.
   **accuracy-over-time line chart** (inline SVG, no libraries), and **CSV / JSON
   export** of the full history.
 - **REST API integration** with a partner backend, plus a graceful **offline
-  fallback** to local sample data and a local verification engine.
+  fallback** to the bundled Juzʼ ʿAmma data and a local verification engine.
 - **Clean, responsive layout** (desktop → mobile) with light/dark support.
 - **Live search** across the ayahs of the selected surah.
 - **Settings panel** to point the app at any backend URL and test the connection.
@@ -74,7 +80,7 @@ app/
 │   ├── css/styles.css       # RTL-first responsive styling, light/dark
 │   └── js/
 │       ├── config.js        # Backend URL & runtime config (localStorage-backed)
-│       ├── data.js          # Offline sample Quran data (fallback)
+│       ├── data.js          # Full Juzʼ ʿAmma dataset (37 surahs, offline)
 │       ├── verify.js        # Arabic-aware verification engine (Levenshtein)
 │       ├── api.js           # REST layer + graceful fallback
 │       ├── speech.js        # Speech-to-text (Web Speech API + native Android plugin)
@@ -117,10 +123,12 @@ file directly via `file://` disables some browser features). Easiest on Windows:
 browser. Or manually:
 
 ```bash
-node server.js       # serves www/ on https://saeedramadancv-sys.github.io/quranverse/
+node server.js       # serves www/ on http://localhost:8123/
 ```
 
-Then open <https://saeedramadancv-sys.github.io/quranverse/> in Chrome or Edge.
+Then open <http://localhost:8123/> in Chrome or Edge. The published live demo
+is hosted on GitHub Pages at
+<https://saeedramadancv-sys.github.io/quranverse/>.
 
 ---
 
@@ -142,7 +150,7 @@ Expected REST contract (adjust `js/api.js` to match the backend):
 `POST /verify` body:
 
 ```json
-{ "surah": 1, "ayah": 1, "reference": "…", "transcription": "…" }
+{ "surah": 112, "ayah": 1, "reference": "…", "transcription": "…" }
 ```
 
 If the backend omits `accuracy`/`ops`, the app computes them locally, so
