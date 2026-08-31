@@ -173,3 +173,20 @@ Defaults to a 90% pass threshold (configurable in `js/config.js`).
 ---
 
 _Built with HTML, CSS, and vanilla JavaScript — no build step required._
+
+---
+
+## License
+
+MIT — see [LICENSE](LICENSE).
+
+The Quranic text is from [Tanzil.net](https://tanzil.net) (Uthmani/Ḥafs script)
+and is redistributed under Tanzil's terms; the license above covers the
+application code only.
+
+---
+
+**Saeed Adel Ramadan** — Junior .NET Developer, Amman, Jordan
+[GitHub](https://github.com/saeedramadancv-sys) ·
+[LinkedIn](https://linkedin.com/in/saeed-ramadan-cv) ·
+saeed.ramadan.cv@gmail.com
