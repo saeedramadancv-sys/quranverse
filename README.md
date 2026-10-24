@@ -188,5 +188,5 @@ application code only.
 
 **Saeed Adel Ramadan** — Junior .NET Developer, Amman, Jordan
 [GitHub](https://github.com/saeedramadancv-sys) ·
-[LinkedIn](https://linkedin.com/in/saeed-ramadan-cv) ·
+[LinkedIn](https://www.linkedin.com/in/saeedramadan-dotnet) ·
 saeed.ramadan.cv@gmail.com
